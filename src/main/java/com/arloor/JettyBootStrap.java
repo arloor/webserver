@@ -38,12 +38,10 @@ public class JettyBootStrap {
         sslContextFactory.setKeyStorePassword(KEYSTORE_PASSWORD);
 
         server.addConnector(buildTcpConnector(server, httpConfig, sslContextFactory));
-        HTTP3ServerConnector http3ServerConnector;
+        HTTP3ServerConnector http3ServerConnector = null;
         if (ENABLE_HTTP_3) {
             http3ServerConnector = buildHttp3Connector(server, httpConfig, sslContextFactory);
             server.addConnector(http3ServerConnector);
-        } else {
-            http3ServerConnector = null;
         }
         scheduleSslContextFactoryRefresh(sslContextFactory, http3ServerConnector);
         GzipHandler gzipHandler = buildHandler(server);
